@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>注册</title>
+
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css">
+    <style>
+        .account {
+            width: 350px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+<div class="account">
+<h1 align="center">注 册</h1>
+<form action='#' method='POST'>
+{% for user in form %}
+    <div class="form-group">
+        <label for="{{ field.id_for_label }}">{{ user.label}}:</label>
+        {{ user }}
+    </div>
+{% endfor %}
+    <button type="submit" class="btn btn-success">注 册</button>
+    <button type="reset" class="btn btn-warning">重 置</button>
+</form>
+</div>
+</body>
+</html>

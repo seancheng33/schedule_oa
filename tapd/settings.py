@@ -37,6 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # 新增第三方插件应用
+    'captcha',
+    # 自己的应用
+    'usercenter',
 ]
 
 MIDDLEWARE = [
