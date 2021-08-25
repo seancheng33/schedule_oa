@@ -64,7 +64,13 @@ class RegisterModelForm(forms.ModelForm):
 
         return confirm_pwd
 
-class LoginForm(BaseException,forms.Form):
+class LoginForm(forms.Form):
     username = forms.CharField(label='用户名')
     password = forms.CharField(label='密码',widget=forms.PasswordInput)
     code = CaptchaField(label='验证码')
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for name,field in self.fields.items():
+            field.widget.attrs['class'] = 'form-control'
+            field.widget.attrs['placeholder'] = '请输入%s' %(field.label)

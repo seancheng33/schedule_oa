@@ -14,6 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from captcha import views
+from usercenter.views import login
 from django.contrib import admin
 from django.urls import path, include
 
@@ -23,5 +24,5 @@ urlpatterns = [
     path(r'captcha/', include('captcha.urls')),
     path(r'refresh/$', views.captcha_refresh, name='captcha-refresh'),
     path(r'usercenter/',include('usercenter.urls')),
-    path(r'login/',include('usercenter.urls')),
+    path(r'login/',login,name='login'),
 ]

@@ -7,7 +7,7 @@ CAPTCHA_TIMEOUT = 1             # 超时（单位：分钟）
 CAPTCHA_OUTPUT_FORMAT = '%(text_field)s %(image)s %(hidden_field)s'
 CAPTCHA_NOISE_FUNCTIONS = (
     'captcha.helpers.noise_null',
-    # 'captcha.helpers.noise_arcs',
+    'captcha.helpers.noise_arcs',
     'captcha.helpers.noise_dots',
 )
 

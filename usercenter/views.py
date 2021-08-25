@@ -3,8 +3,8 @@ from django.shortcuts import render
 from django_redis import get_redis_connection
 
 # Create your views here.
-from usercenter.userforms import RegisterModelForm,LoginForm
-
+from usercenter.userforms import RegisterModelForm
+from usercenter.userforms import LoginForm
 
 def index():
     conn = get_redis_connection()
@@ -12,8 +12,13 @@ def index():
     pass
 
 def login(request):
+
+
     form = LoginForm()
-    return render(request,'login.html',{'form':form})
+
+
+    return render(request,'login.html', {'form': form})
+
 
 def register(request):
     if request.method == 'GET':
