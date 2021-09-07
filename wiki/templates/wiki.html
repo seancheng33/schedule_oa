@@ -50,11 +50,16 @@
     </div>
     </div>
       <div class="col-sm-9 content">
+        {% if wiki_object %}
+          <h3>{{ wiki_object.title}}</h3>
+        <p>{{ wiki_object.content}}</p>
+        {% else %}
         <div style="text-align: center; margin-top: 50px;">
-        <h4>《项目名称》wiki文档</h4>
-        <a href="{% url 'wiki_add' %}" >
-        <i class="fa fa-plus-circle" aria-hidden="true"></i> 新建文章</a>
-      </div>
+          <h4>《项目名称》wiki文档</h4>
+          <a href="{% url 'wiki_add' %}" >
+          <i class="fa fa-plus-circle" aria-hidden="true"></i> 新建文章</a>
+        </div>
+        {% endif %}
       </div>
   </div>
 </div>
@@ -66,6 +71,9 @@
 
 {% block js %}
 <script>
+
+  var WIKI_DETAIL_URL = "{% url 'wiki_index' %}";
+
   $(function (){
     initCatalog();
   });
@@ -78,7 +86,8 @@
       success:function(res) {
         if(res.status){
           $.each(res.result,function(index,item){
-            var li = $("<li>").attr('id',"id_"+item.id).append($('<a>').text(item.title) ).append($('<ul>'));
+            var href = WIKI_DETAIL_URL + "?wiki_id=" + item.id
+            var li = $("<li>").attr('id',"id_"+item.id).append($('<a>').text(item.title).attr('href',href) ).append($('<ul>'));
             if (!item.parent) {
               $('#catalog').append(li);
             }else{
