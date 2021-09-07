@@ -14,15 +14,17 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from captcha import views
-from usercenter.views import login
+from usercenter.views import login, index
 from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
     # path('admin/', admin.site.urls),
-    # path('^',include('verifycations.urls')),
+    path('',index,name='index'),
+    path('index',index,name='index'),
     path(r'captcha/', include('captcha.urls')),
     path(r'refresh/$', views.captcha_refresh, name='captcha-refresh'),
     path(r'usercenter/',include('usercenter.urls')),
     path(r'login/',login,name='login'),
+    path(r'wiki/', include('wiki.urls')),
 ]

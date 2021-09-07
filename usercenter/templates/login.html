@@ -22,12 +22,14 @@
             <div class="form-group">
                 <label for="{{ field.id_for_label }}">{{ user.label}}:</label>
                 {{ user }}
-                <span class="error-msg"></span>
+                <span class="error-msg">{{ field.errors.0 }}</span>
             </div>
         {% endfor %}
-        <button id="btnSubmit" type="button" class="btn btn-success">登 陆</button>
+        <button id="btnSubmit" type="submit" class="btn btn-success">登 陆</button>
         <button type="reset" class="btn btn-warning">取 消</button>
+        <div style="float:right;"><a href="">忘记用户密码？</a></div>
     </form>
+
 </div>
 {% endblock %}
 
@@ -51,22 +53,18 @@
         $('#btnSubmit').click(function (){
             $('.error-msg').empty();
             $.ajax({
-                url:"{% url 'register' %}",
+                url:"{% url 'login' %}",
                 type:"POST",
-                data:$('#regForm').serialize(),   // 收集到所有字段数据和CSRF token
+                data:$('#loginForm').serialize(),   // 收集到所有字段数据和CSRF token
                 dataType:"JSON",
                 success:function(res) {
-                    if(res.status){
-                        location.href = res.data;
-                    }else{
-                        $.each(res.error,  function (key,value) {
-                            if(key == 'code'){
-                                $("#id_"+key+"_0").next().text(value[0]);
-                            }else{
-                                $("#id_"+key).next().text(value[0]);
-                            }
-                        })
-                    }
+                    $.each(res.error,  function (key,value) {
+                        if(key == 'code'){
+                            $("#id_"+key+"_0").next().text(value[0]);
+                        }else{
+                            $("#id_"+key).next().text(value[0]);
+                        }
+                    })
                 }
             })
         })

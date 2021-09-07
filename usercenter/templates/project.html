@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} 项目 {% endblock %}
+
+
+{% block content %}
+<div class="container-fluid">
+<div class="btn-group" role="group" aria-label="...">
+  <button type="button" class="btn btn-default">新建项目</button>
+</div>
+<div><br></div>
+<div class="panel panel-default">
+  <div class="panel-body">
+    <div class="col-sm-6 col-md-4">
+      <div class="alert alert-success" role="alert">项目名1</div>
+        <h3>Thumbnail label</h3>
+        <p>...</p>
+        <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p>
+  </div>
+    <div class="col-sm-6 col-md-4">
+      <div class="alert alert-success" role="alert">项目名1</div>
+        <h3>Thumbnail label</h3>
+        <p>...</p>
+        <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p>
+  </div>
+  </div>
+</div>
+</div>
+{% endblock %}

@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} WIKI 文档 {% endblock %}
+
+{% block css %}
+<style>
+  .panel-default .panel-heading {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  .panel-body {
+    padding: 0;
+  }
+  .title-list {
+    border-right: 1px solid #dddddd;
+    min-height: 600px;
+  }
+
+  .title-list ul{
+    padding-left: 15px;
+  }
+
+  .title-list li a{
+    display: block;
+    padding: 5px 0;
+  }
+
+  .content {
+    border-left: 1px solid #dddddd;
+    min-height: 600px;
+    margin-left: -1px;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <div><i class="glyphicon glyphicon-education"></i> wiki知识库</div>
+    <div class="function" ><a type="button" class="btn btn-success btn-xs" href="{% url 'wiki_add' %}"><i class="fa fa-plus-circle" aria-hidden="true"></i> 新建文章</a> </div>
+
+  </div>
+  <div class="panel-body">
+    <div class="col-sm-3 title-list" ><div>目录
+      <ul id="catalog">
+      </ul>
+    </div>
+    </div>
+      <div class="col-sm-9 content">
+        <div style="text-align: center; margin-top: 50px;">
+        <h4>《项目名称》wiki文档</h4>
+        <a href="{% url 'wiki_add' %}" >
+        <i class="fa fa-plus-circle" aria-hidden="true"></i> 新建文章</a>
+      </div>
+      </div>
+  </div>
+</div>
+</div>
+
+
+{% endblock %}
+
+
+{% block js %}
+<script>
+  $(function (){
+    initCatalog();
+  });
+
+  function initCatalog() {
+    $.ajax({
+      url: "{% url 'wiki_catalog' %}",
+      type:"GET",
+      dataType:"JSON",
+      success:function(res) {
+        if(res.status){
+          $.each(res.result,function(index,item){
+            var li = $("<li>").attr('id',"id_"+item.id).append($('<a>').text(item.title) ).append($('<ul>'));
+            if (!item.parent) {
+              $('#catalog').append(li);
+            }else{
+              $('#id_'+item.parent).children('ul').append(li);
+            }
+          })
+        }else{
+          alert("初始化数据失败！")
+        }
+      }
+    })
+  }
+</script>
+
+
+{% endblock %}

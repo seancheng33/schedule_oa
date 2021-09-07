@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'captcha',
     # 自己的应用
     'usercenter',
+    'wiki',
 ]
 
 MIDDLEWARE = [

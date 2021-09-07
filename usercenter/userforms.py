@@ -65,7 +65,7 @@ class RegisterModelForm(forms.ModelForm):
         return confirm_pwd
 
 class LoginForm(forms.Form):
-    username = forms.CharField(label='用户名')
+    username = forms.CharField(label='用户名或邮箱或手机号')
     password = forms.CharField(label='密码',widget=forms.PasswordInput)
     code = CaptchaField(label='验证码')
 
