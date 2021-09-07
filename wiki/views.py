@@ -16,12 +16,10 @@ def wiki_index(request):
     return render(request,'wiki.html')
 
 
-
-
 def wiki_add(request):
     if request.method == 'GET':
         form = WikiModelForm()
-        return render(request,'add.html',{'form':form})
+        return render(request,'wiki_form.html',{'form':form})
 
     form = WikiModelForm(request.POST)
     if form.is_valid():
@@ -37,3 +35,25 @@ def wiki_catalog(request):
     result = Wiki.objects.filter().values("id",'title','parent').order_by('depth','id')
 
     return JsonResponse({'status': True, 'result': list(result)})
+
+def wiki_edit(request, wiki_id):
+    wiki_object = Wiki.objects.filter(id=wiki_id).first()
+    if not wiki_object:
+        return redirect('wiki_index')
+    if request.method == 'GET':
+        form = WikiModelForm(request,instance=wiki_object)
+        return render(request,'wiki_form.html',{'form':form})
+
+    form = WikiModelForm(request,data=request.POST,instance=wiki_object)
+    if form.is_valid():
+        if form.instance.parent:
+            form.instance.depth = form.instance.depth + 1
+        else:
+            form.instance.depth = 1
+        form.save()
+        return redirect('wiki_index')
+
+def wiki_del(request,wiki_id):
+    Wiki.objects.filter(id=wiki_id).delete()
+
+    return redirect('wiki_index')
