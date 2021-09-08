@@ -18,7 +18,7 @@ def wiki_index(request):
 
 def wiki_add(request):
     if request.method == 'GET':
-        form = WikiModelForm()
+        form = WikiModelForm(request)
         return render(request,'wiki_form.html',{'form':form})
 
     form = WikiModelForm(request.POST)

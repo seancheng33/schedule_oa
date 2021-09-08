@@ -12,6 +12,16 @@
     border-right: 1px solid #dddddd;
     min-height: 600px;
   }
+
+    .title-list ul{
+    padding-left: 15px;
+  }
+
+  .title-list li a{
+    display: block;
+    padding: 5px 0;
+  }
+
   .content {
     border-left: 1px solid #dddddd;
     min-height: 600px;
@@ -25,7 +35,10 @@
 <div class="panel panel-default">
   <div class="panel-heading"><i class="glyphicon glyphicon-education"></i> wiki知识库 </div>
   <div class="panel-body">
-    <div class="col-sm-3 title-list" >目录</div>
+        <div class="col-sm-3 title-list" >目录
+      <ul id="catalog">
+      </ul>
+    </div>
       <div class="col-sm-9 content">
         <div>
           <form method="post" style="margin: 30px;">
@@ -44,6 +57,38 @@
   </div>
 </div>
 </div>
+{% endblock %}
 
 
+{% block js %}
+<script>
+  var WIKI_DETAIL_URL = "{% url 'wiki_index' %}";
+
+  $(function (){
+    initCatalog();
+  });
+
+  function initCatalog() {
+    $.ajax({
+      url: "{% url 'wiki_catalog' %}",
+      type:"GET",
+      dataType:"JSON",
+      success:function(res) {
+        if(res.status){
+          $.each(res.result,function(index,item){
+            var href = WIKI_DETAIL_URL + "?wiki_id=" + item.id
+            var li = $("<li>").attr('id',"id_"+item.id).append($('<a>').text(item.title).attr('href',href) ).append($('<ul>'));
+            if (!item.parent) {
+              $('#catalog').append(li);
+            }else{
+              $('#id_'+item.parent).children('ul').append(li);
+            }
+          })
+        }else{
+          alert("初始化数据失败！")
+        }
+      }
+    })
+  }
+</script>
 {% endblock %}
