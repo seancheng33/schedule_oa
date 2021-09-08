@@ -4,6 +4,7 @@
 {% block title %} WIKI 文档 {% endblock %}
 
 {% block css %}
+<link rel="stylesheet" href="{% static 'plugin/editor-md/css/editormd.preview.min.css' %}">
 <style>
   .panel-default .panel-heading {
     display: flex;
@@ -55,8 +56,10 @@
     </div>
       <div class="col-sm-9 content">
         {% if wiki_object %}
-          <h3>{{ wiki_object.title}}</h3>
-        <p>{{ wiki_object.content}}</p>
+          <h2>{{ wiki_object.title}}</h2>
+        <div id="previewMarkDown">
+          <textarea>{{ wiki_object.content}}</textarea>
+        </div>
         {% else %}
         <div style="text-align: center; margin-top: 50px;">
           <h4>《项目名称》wiki文档</h4>
@@ -74,12 +77,20 @@
 
 
 {% block js %}
+<script src="{% static 'plugin/editor-md/editormd.min.js'%}"></script>
+<script src="{% static 'plugin/editor-md/lib/flowchart.min.js'%}"></script>
+<script src="{% static 'plugin/editor-md/lib/jquery.flowchart.min.js'%}"></script>
+<script src="{% static 'plugin/editor-md/lib/marked.min.js'%}"></script>
+<script src="{% static 'plugin/editor-md/lib/prettify.min.js'%}"></script>
+<script src="{% static 'plugin/editor-md/lib/raphael.min.js'%}"></script>
+<script src="{% static 'plugin/editor-md/lib/sequence-diagram.min.js'%}"></script>
+<script src="{% static 'plugin/editor-md/lib/underscore.min.js'%}"></script>
 <script>
-
   var WIKI_DETAIL_URL = "{% url 'wiki_index' %}";
 
   $(function (){
     initCatalog();
+    initPreviewMarkDown();
   });
 
   function initCatalog() {
@@ -99,12 +110,16 @@
             }
           })
         }else{
-          alert("初始化数据失败！")
+          alert("初始化数据失败！");
         }
       }
     })
   }
+
+  function initPreviewMarkDown() {
+    editormd.markdownToHTML("previewMarkDown", {
+      htmlDecode: "style,script,iframe"
+    });
+  }
 </script>
-
-
 {% endblock %}

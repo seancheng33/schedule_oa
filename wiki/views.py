@@ -21,7 +21,7 @@ def wiki_add(request):
         form = WikiModelForm(request)
         return render(request,'wiki_form.html',{'form':form})
 
-    form = WikiModelForm(request.POST)
+    form = WikiModelForm(request,data=request.POST)
     if form.is_valid():
         if form.instance.parent:
             form.instance.depth = form.instance.depth + 1
