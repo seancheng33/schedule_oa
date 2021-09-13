@@ -1,10 +1,16 @@
-import json
+import os
+from datetime import datetime
 
+from PIL import Image
 from django.http import JsonResponse
+from django.views.decorators.clickjacking import xframe_options_sameorigin
+from django.views.decorators.csrf import csrf_exempt
 
 from wiki.models import Wiki
 from django.shortcuts import render, redirect
 from wiki.wikiforms import WikiModelForm
+
+
 # Create your views here.
 def wiki_index(request):
     wiki_id = str(request.GET.get('wiki_id'))
@@ -57,3 +63,29 @@ def wiki_del(request,wiki_id):
     Wiki.objects.filter(id=wiki_id).delete()
 
     return redirect('wiki_index')
+
+@csrf_exempt
+@xframe_options_sameorigin
+def wiki_upload(request):
+    print("接收到图片")
+    image_object = request.FILES.get('editormd-image-file')
+
+    # print(type(image_object.chunks()))
+    if image_object:
+
+        image_object.name
+        filename = datetime.now().strftime('%Y%m%d%H%M%S') + image_object.name
+        current_path = os.path.abspath(os.path.dirname(__file__))
+        father_path = os.path.abspath(os.path.dirname(current_path) + os.path.sep)
+
+        filedir = os.path.join(father_path,'wiki/static/upload')
+
+        newname = (os.path.join(filedir,filename))
+
+        Image.open(image_object).save(newname)  # 使用pil打开传过来的图片并且将其保存
+        host_name = request.get_host()
+        image_url = 'http://' + host_name + '/' + ('/').join(newname.split('/')[-3:])
+
+        data = {'success':1,'message':'图片上次成功','url':image_url}
+        return JsonResponse(data,content_type='text/html')
+    return JsonResponse()
