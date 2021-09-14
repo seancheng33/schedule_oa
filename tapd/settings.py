@@ -52,6 +52,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'usercenter.util.auth_middlewares.AuthMiddleware',
 ]
 
 ROOT_URLCONF = 'tapd.urls'

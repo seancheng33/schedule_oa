@@ -33,17 +33,17 @@
           <li><a href="#">帮助文档</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        {% if session == null %}
+        {% if request.tracer == null %}
         <li><a href="{% url 'login' %}">登陆系统</a></li>
         <li><a href="{% url 'register' %}">注册新用户</a></li>
         {% else %}
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">用户名<span class="caret"></span></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ request.tracer.username}}<span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li><a href="#">任务中心</a></li>
             <li><a href="#">用户资料</a></li>
             <li role="separator" class="divider"></li>
-            <li><a href="#">注 销</a></li>
+            <li><a href="{% url 'logout' %}">退出登陆</a></li>
           </ul>
         </li>
         {% endif %}

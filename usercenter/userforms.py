@@ -2,7 +2,6 @@ from captcha.fields import CaptchaField
 from django import forms
 from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
-from util.encryption_string import md5_encrypt
 from usercenter import models
 
 

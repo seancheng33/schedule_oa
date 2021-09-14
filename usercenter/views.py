@@ -24,13 +24,13 @@ def login(request):
         password = form.cleaned_data['password']
         user_object = models.UserInfo.objects.filter(Q(username=username)|Q(email=username)|Q(mobile_phone=username)).filter(password=password).first()
         if user_object:
+            print(user_object.id)
             request.session['user_id'] = user_object.id
-            request.session.set_expiry(60*60*24*7)
+            request.session.set_expiry(60*60*24*7)          # 这里计算的是60秒乘60分乘24小时乘7天，设置了session为保存七天
             # url = reverse('index',kwargs={'form': form,'session': request.session})
             return redirect('index')
 
-    form.add_error('username','用户名或密码错误')
-    print(form)
+        form.add_error('username','用户名或密码错误')
 
     return render(request,'login.html', {'form': form})
 
@@ -51,3 +51,7 @@ def register(request):
 def project_index(request):
 
     return render(request, 'project.html')
+
+def logout(request):
+    request.session.flush()
+    return redirect('index')

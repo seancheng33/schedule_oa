@@ -70,9 +70,7 @@ def wiki_upload(request):
     print("接收到图片")
     image_object = request.FILES.get('editormd-image-file')
 
-    # print(type(image_object.chunks()))
     if image_object:
-
         image_object.name
         filename = datetime.now().strftime('%Y%m%d%H%M%S') + image_object.name
         current_path = os.path.abspath(os.path.dirname(__file__))
@@ -83,7 +81,7 @@ def wiki_upload(request):
         newname = (os.path.join(filedir,filename))
 
         Image.open(image_object).save(newname)  # 使用pil打开传过来的图片并且将其保存
-        host_name = request.get_host()
+        host_name = request.get_host()      # 获取请求的网址的主机名和端口号。用于后面的组合
         image_url = 'http://' + host_name + '/' + ('/').join(newname.split('/')[-3:])
 
         data = {'success':1,'message':'图片上次成功','url':image_url}

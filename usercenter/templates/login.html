@@ -18,11 +18,11 @@
     <h1 align="center">用 户 登 陆</h1>
     <form id="loginForm" method='POST' novalidate>
         {% csrf_token %}
-                {% for user in form %}
+        {% for user in form %}
             <div class="form-group">
                 <label for="{{ field.id_for_label }}">{{ user.label}}:</label>
                 {{ user }}
-                <span class="error-msg">{{ field.errors.0 }}</span>
+                <span class="error-msg">{{ user.errors.0 }}</span>
             </div>
         {% endfor %}
         <button id="btnSubmit" type="submit" class="btn btn-success">登 陆</button>
@@ -45,29 +45,5 @@
         });
     })
 
-    $(function (){
-        bindClickSubmit();
-    });
-
-    function bindClickSubmit() {
-        $('#btnSubmit').click(function (){
-            $('.error-msg').empty();
-            $.ajax({
-                url:"{% url 'login' %}",
-                type:"POST",
-                data:$('#loginForm').serialize(),   // 收集到所有字段数据和CSRF token
-                dataType:"JSON",
-                success:function(res) {
-                    $.each(res.error,  function (key,value) {
-                        if(key == 'code'){
-                            $("#id_"+key+"_0").next().text(value[0]);
-                        }else{
-                            $("#id_"+key).next().text(value[0]);
-                        }
-                    })
-                }
-            })
-        })
-    }
 </script>
 {% endblock %}
